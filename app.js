@@ -16,8 +16,8 @@ app.use(express.json());
 app.use(cors());
 app.use("/favorites", favoriteRoutes);
 
-app.get("/", (req, res) => {
-  res.redirect("/TradingCard");
+ app.get("/", (req, res) => {
+  res.json({ message: "API root" });
 });
 
 app.get("/health", (req, res) => {

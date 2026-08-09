@@ -1,19 +1,19 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const FavoriteCards = db.define("FavoriteCard", {
+const FavoriteCards = db.define("FavoriteCards", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
-    primaryKey: true
+    primaryKey: true,
   },
-//   userId: {
-//     type: DataTypes.INTEGER,
-//     allowNull: false
-//   },
   cardId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
+  },
+  userId: {
+    type: DataTypes.STRING,
+    allowNull: false,
   }
 });
 
