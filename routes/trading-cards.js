@@ -1,11 +1,18 @@
 const express = require("express");
 const router = express.Router(); //groups one resource's routes in one file.
-const { TradingCard } = require("../models");
+const  TradingCard  = require("../models/TradingCard");
 const { Op } = require("sequelize");
 
 async function requireName(req, res, next) {
   if (!req.body.name) {
     return res.status(400).json("Name is missing, please enter one!!!");
+  }
+  next();
+}
+
+async function requireOwnerId(req, res, next) {
+  if (!req.body.ownerId) {
+    return res.status(400).json("ownerId is required.");
   }
   next();
 }
@@ -55,20 +62,30 @@ router.get("/:id", async (req, res) => {
     console.log(err);
   }
 });
-
-// POST /TradingCards- create a new TradingCard
-router.post("/", requireName, async (req, res) => {
+router.post("/", requireName, async (req, res, next) => {
   try {
-    const tradingCard = await TradingCard.create(req.body);
-    if (!tradingCard) res.status(404).json("Trading Card Not Created!!!");
-    console.log(tradingCard);
-    res.status(201).json(tradingCard);
+    console.log("📥 Incoming POST body:", req.body);
+
+    const tradingCard = await TradingCard.create({
+      name: req.body.name,
+      team: req.body.team,
+      status: req.body.status,
+      value: Number(req.body.value),
+      rare: req.body.rare,
+      ownerId: req.body.ownerId
+    });
+
+    console.log("✅ Created card:", tradingCard.toJSON());
+    return res.status(201).json(tradingCard);
+
   } catch (err) {
+    console.log("🔥 REAL Sequelize error:", err);
+
     if (err.name === "SequelizeValidationError") {
       return res.status(400).json({ error: err.errors[0].message });
-      console.log(err.name);
     }
-    next(err); // hand anything unexpected to the central error hadler
+
+    return next(err);
   }
 });
 

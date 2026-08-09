@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const TradingCard = db.define("TradingCards", {
+const TradingCard = db.define("TradingCard", {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -10,7 +10,7 @@ const TradingCard = db.define("TradingCards", {
   name: DataTypes.STRING,
   team: DataTypes.STRING,
   status: DataTypes.STRING,
-  value: DataTypes.FLOAT,
+  value: DataTypes.STRING,
   rare: DataTypes.BOOLEAN,
   ownerId: {
     type: DataTypes.STRING,

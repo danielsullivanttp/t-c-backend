@@ -8,17 +8,17 @@ const User = db.define("Users", {
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,   // Auth0 may not provide a name
   },
   email: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: true,   // Auth0 email is optional depending on provider
     unique: true,
     validate: { isEmail: true },
   },
-  passwordHash: {
+  picture: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,   // Auth0 provides a profile picture URL
   }
 });
 
